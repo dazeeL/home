@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PenghitungScreen extends StatefulWidget {
-  const PenghitungScreen {{super.key}};
+  const PenghitungScreen({super.key});
 
   @override
-  State<PenghitungScreen> createState => _Penghitung
+  State<PenghitungScreen> createState() => _PenghitungScreenState();
+}
+
+class _PenghitungScreenState extends State<PenghitungScreen> {
+  int nilai = 0;
+
+  menghitung () { //INI NAMNYA FUNGSI
+    setState(() {});
+    nilai = nilai + 1;
+    print("ini nilai = $nilai");
+  } 
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+     backgroundColor: Colors.greenAccent,
+     body: Center(
+       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Hitung $nilai"), //NAMPILIN VARIABLE NILAI
+          ElevatedButton(onPressed: (){
+            menghitung();
+          }, 
+          child: Text("Hitung"),),
+        ],  
+        ),
+      ),
+    );
+  }
 }

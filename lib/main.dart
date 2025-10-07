@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'profil_screen.dart';
+import 'penghitung_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,12 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Edit Profile',
       theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const ProfilScreen(),
+      home: PenghitungScreen(),
     );
   }
 }
-
-
