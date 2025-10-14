@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter1/home_screen.dart';
 import 'penghitung_screen.dart';
+import 'profil_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +19,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: PenghitungScreen(),
+      home:HomeScreen(),
+      routes: {
+      '/penghitung': (context) => PenghitungScreen(),
+      '/profil': (context) => ProfilScreen(),
+      '/home': (context) => HomeScreen(),
+      },
     );
   }
 }
