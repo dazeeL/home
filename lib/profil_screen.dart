@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 //BUAT RUNNING FLUTTER RUN, REFRESH LANGSUNG KETIK R DI TERMINAL
 
 class ProfilScreen extends StatelessWidget {
-  const ProfilScreen({super.key});
+    final String? username;
+  const ProfilScreen({super.key, this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +16,12 @@ class ProfilScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.navigate_before),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/home'); 
+            Navigator.pushReplacementNamed(context, '/home');
           },
         ),
 
         title: Text(
-          "Profile",
+          "Profile $username",
           style: GoogleFonts.rubik(
             color: Colors.blueGrey,
             fontWeight: FontWeight.bold,
@@ -41,7 +42,12 @@ class ProfilScreen extends StatelessWidget {
                     radius: 100,
                     backgroundImage: AssetImage("asset/mingyu.jpeg"),
                   ),
-
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Kembali"),
+                  ),
                   // Icon + di pojok kanan bawah
                   Positioned(
                     bottom: 8, // jarak dari bawah
