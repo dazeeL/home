@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter1/home_screen.dart';
-import 'package:flutter1/login_screen.dart';
-import 'penghitung_screen.dart';
-import 'profil_screen.dart';
-
+import 'package:flutter1/login_validasi.dart';
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,20 +9,23 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Edit Profile',
+      title: 'Aplikasi Profil Flutter',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 242, 186, 205),
+            foregroundColor: Colors.white,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
-      home:LoginScreen(),
-      routes: {
-      '/penghitung': (context) => PenghitungScreen(),
-      '/profil': (context) => ProfilScreen(),
-      '/home': (context) => HomeScreen(),
-      },
+      home: const LoginScreen(),
     );
   }
 }

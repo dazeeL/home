@@ -1,169 +1,205 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'editprofil_screen.dart';
 
-//BUAT RUNNING FLUTTER RUN, REFRESH LANGSUNG KETIK R DI TERMINAL
+class ProfilScreen extends StatefulWidget {
+  const ProfilScreen({super.key});
 
-class ProfilScreen extends StatelessWidget {
-    final String? username;
-  const ProfilScreen({super.key, this.username});
+  @override
+  State<ProfilScreen> createState() => _ProfilScreenState();
+}
+
+class _ProfilScreenState extends State<ProfilScreen> {
+  String nama = "Kim Mingyu";
+  String username = "@kimingyu";
+  String email = "mingyukim@gmail.com";
+  String hobi = "Membaca";
+  String alamat = "Korea";
+  String noHp = "085713445678";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color(0xFFF4F6FA),
       appBar: AppBar(
-        //APPBAR BUAT ATASSSSS
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.navigate_before),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/home');
           },
         ),
-
         title: Text(
-          "Profile $username",
+          "Profile",
           style: GoogleFonts.rubik(
-            color: Colors.blueGrey,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
-      ),
-      body: Center(
-        child: ListView(
-          children: [
-            //PAKE COLUMN BIAR ATAS BAWAH
-            //BIAR FULL CENTER PENCET COLUMN ADA LAMPU KUNING)
-            //COLUMN GANTI LIST VIEW BIAR CARD BISA DI SCROLL
-            Center(
-              child: Stack(
-                children: [
-                  // Foto profil
-                  CircleAvatar(
-                    radius: 100,
-                    backgroundImage: AssetImage("asset/mingyu.jpeg"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Kembali"),
-                  ),
-                  // Icon + di pojok kanan bawah
-                  Positioned(
-                    bottom: 8, // jarak dari bawah
-                    right: 8, // jarak dari kanan
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue, // warna background icon
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 2,
-                        ), // biar rapih
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => EditProfilScreen(
+                        nama: nama,
+                        username: username,
+                        email: email,
+                        hobi: hobi,
+                        alamat: alamat,
+                        noHp: noHp,
+                        onSave: (
+                          newNama,
+                          newUsername,
+                          newEmail,
+                          newHobi,
+                          newAlamat,
+                          newnoHp,
+                        ) {
+                          setState(() {   //update data ketika klik save
+                            nama = newNama;
+                            username = newUsername;
+                            email = newEmail;
+                            hobi = newHobi;
+                            alamat = newAlamat;
+                            noHp = newnoHp;
+                          });
+                        },
                       ),
-                      padding: EdgeInsets.all(8),
-                      child: Icon(Icons.add, color: Colors.white, size: 20),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+
+      body: Stack(
+        children: [
+          // 🟦 background biru atas
+          Container(
+            height: 230,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0xFF002E9D),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
+          ),
+
+          // isi konten
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 30),
+
+                // FOTO PROFIL
+                Center(
+                  child: Stack(
+                    children: [
+                      const CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage("asset/mingyu.jpeg"),
+                      ),
+                      Positioned(
+                        bottom: 5,
+                        right: 5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          padding: const EdgeInsets.all(6),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            color: Color(0xFF002E9D),
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                // NAMA & USERNAME
+                Text(
+                  nama,
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  username,
+                  style: GoogleFonts.rubik(fontSize: 14, color: Colors.white70),
+                ),
+
+                const SizedBox(height: 30),
+
+                // CARD ISI PROFIL
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    children: [
+                      profilCard("Email", email),
+                      profilCard("Hobi", hobi),
+                      profilCard("Alamat", alamat),
+                      profilCard("Nomor HP", noHp),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 🔹 fungsi reusable untuk manggil card info
+  Widget profilCard(String title, String value) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 3,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(color: Colors.grey, fontSize: 13),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
                     ),
                   ),
                 ],
               ),
             ),
-
-            Text(
-              "KIM MINGYU",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-                color: const Color.fromRGBO(59, 59, 59, 1),
-              ),
-            ),
-            Text(
-              "mingyukim@gmail.com",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                color: const Color.fromRGBO(59, 59, 59, 1),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Icon(Icons.home), Icon(Icons.favorite)],
-            ),
-
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.person),
-                title: Text("Edit Profile"),
-                subtitle: Text("edit"),
-                trailing: Icon(Icons.navigate_next),
-              ),
-            ),
-
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.home),
-                title: Text("Home"),
-                trailing: Icon(Icons.navigate_next),
-              ),
-            ),
-
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Setting"),
-                trailing: Icon(Icons.navigate_next),
-              ),
-            ),
-
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.notifications),
-                title: Text("Notification"),
-                trailing: Icon(Icons.navigate_next),
-              ),
-            ),
-
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.brightness_2),
-                title: Text("Dark Mode"),
-                trailing: Icon(Icons.navigate_next),
-              ),
-            ),
-
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.https),
-                title: Text("Change Password"),
-                trailing: Icon(Icons.navigate_next),
-              ),
-            ),
-
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.pie_chart),
-                title: Text("Graphic"),
-                trailing: Icon(Icons.navigate_next),
-              ),
-            ),
-
-            Card(
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.logout),
-                    Text(
-                      "LOGOUT",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
           ],
         ),
       ),
-    ); //BUAT TAMPILAN POLOSANN
+    );
   }
 }
